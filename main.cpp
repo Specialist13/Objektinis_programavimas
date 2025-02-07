@@ -9,12 +9,26 @@ double vidurkis(vector<int> pazymiai, int egzaminas){
     return vid;
 }
 
+double mediana(vector<int> pazymiai, int egzaminas){
+    double med = 0;
+    std::sort(pazymiai.begin(), pazymiai.end());
+    if (pazymiai.size() % 2 == 0) {
+        med = (pazymiai[pazymiai.size()/2 - 1] + pazymiai[pazymiai.size()/2]) / 2.0;
+    } else {
+        med = pazymiai[pazymiai.size()/2];
+    }
+    med = med*0.4 + egzaminas*0.6;
+    return med;
+}
+
 int main(){
     Stud laikinas;
     vector<Stud> studentai;
-
-    for (int i=0; i<1; i++){
-        cout << "Iveskite studento varda: ";
+    int m;
+    cout<<"Iveskite studentu skaiciu: ";
+    cin>>m;
+    for (int i=0; i<m; i++){
+        cout << "\nIveskite studento varda: ";
         cin >> laikinas.vardas;
         cout << "\nIveskite studento pavarde: ";
         cin >> laikinas.pavarde;
@@ -32,8 +46,8 @@ int main(){
         studentai.push_back(laikinas);
     }
 
-    cout << std::left<<std::setw(20) <<"Vardas"<<std::setw(20)<<"Pavarde"<<std::setw(20)<<"Galutinis (Vid.)\n"<<"------------------------------------------------------\n";
-    for (int i=0; i<studentai.size(); i++){
-        cout << std::left<<std::setw(20)<< studentai[i].vardas << std::setw(20)<< studentai[i].pavarde << std::setw(20)<< vidurkis(studentai[i].pazymiai, studentai[i].egzaminas) << endl;
+    cout << std::left<<std::setw(20) <<"Vardas"<<std::setw(20)<<"Pavarde"<<std::setw(20)<<"Galutinis (Vid.)"<<std::setw(20)<<"/ Galutinis (Med.)\n"<<"-----------------------------------------------------------------\n";
+    for (auto x:studentai){
+        cout << std::left<<std::setw(20)<< x.vardas << std::setw(20)<< x.pavarde << std::setw(20)<< std::fixed << std::setprecision(2) <<vidurkis(x.pazymiai, x.egzaminas) << std::setw(20)<<mediana(x.pazymiai, x.egzaminas)<< endl;
     }
 }
