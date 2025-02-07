@@ -32,5 +32,8 @@ int main(){
         studentai.push_back(laikinas);
     }
 
-    
+    cout << std::left<<std::setw(20) <<"Vardas"<<std::setw(20)<<"Pavarde"<<std::setw(20)<<"Galutinis (Vid.)\n"<<"------------------------------------------------------\n";
+    for (int i=0; i<studentai.size(); i++){
+        cout << std::left<<std::setw(20)<< studentai[i].vardas << std::setw(20)<< studentai[i].pavarde << std::setw(20)<< vidurkis(studentai[i].pazymiai, studentai[i].egzaminas) << endl;
+    }
 }
