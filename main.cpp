@@ -13,10 +13,11 @@ double mediana(vector<int> pazymiai, int egzaminas){
     double med = 0;
     std::sort(pazymiai.begin(), pazymiai.end());
     if (pazymiai.size() % 2 == 0) {
-        med = (pazymiai[pazymiai.size()/2 - 1] + pazymiai[pazymiai.size()/2]) / 2.0;
+        med = double((pazymiai[pazymiai.size()/2 - 1] + pazymiai[pazymiai.size()/2])) / 2.0;
     } else {
         med = pazymiai[pazymiai.size()/2];
     }
+    
     med = med*0.4 + egzaminas*0.6;
     return med;
 }
@@ -44,6 +45,7 @@ int main(){
         cout << "\nIveskite studento egzamino pazymi: ";
         cin >> laikinas.egzaminas;
         studentai.push_back(laikinas);
+        laikinas.pazymiai.clear();
     }
 
     cout << std::left<<std::setw(20) <<"Vardas"<<std::setw(20)<<"Pavarde"<<std::setw(20)<<"Galutinis (Vid.)"<<std::setw(20)<<"/ Galutinis (Med.)\n"<<"-----------------------------------------------------------------\n";
