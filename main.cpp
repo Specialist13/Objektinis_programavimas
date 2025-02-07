@@ -1,5 +1,14 @@
 #include "headers.h"
 
+double vidurkis(vector<int> pazymiai, int egzaminas){
+    double vid = 0;
+    for (int i=0; i<pazymiai.size(); i++){
+        vid += pazymiai[i];
+    }
+    vid = vid/pazymiai.size()*0.4 + egzaminas*0.6;
+    return vid;
+}
+
 int main(){
     Stud laikinas;
     vector<Stud> studentai;
