@@ -37,10 +37,10 @@ int skaiciu_ivesties_tikrinimas(string &tekstas) {
         if (cin.fail()) {
             cout << "Įveskite tinkamą skaičių!\n";
             cin.clear();
-            cin.ignore(1000, '\n');
+            cin.ignore();
         }
         else {
-            cin.ignore(1000, '\n');
+            cin.ignore();
             return reiksme;
         }
     }
@@ -50,16 +50,16 @@ void ranka (Stud &laikinas, vector<Stud> &studentai){
     string tekstas;
     cout<<"Veskite duomenis apie studentus. Kai norėsite baigti, įveskite 'n' kaip studento vardą.\n";
     while (laikinas.vardas!="n"){
-        cout << "Iveskite studento varda: ";
+        cout << "Įveskite studento vardą: ";
         cin >> laikinas.vardas;
         if (laikinas.vardas=="n"){
             break;
         }
-        cout << "Iveskite studento pavarde: ";
+        cout << "Įveskite studento pavardę: ";
         cin >> laikinas.pavarde;
         cout<<"Veskite jo pažymius. Kai norėsite baigti, įveskite '0'.\n";
         while (true){
-            tekstas="Iveskite pazymi: ";
+            tekstas="Įveskite pažymį: ";
             int pazymys=skaiciu_ivesties_tikrinimas(tekstas);
             if (pazymys==0 && laikinas.pazymiai.size()==0){
                 cout<<"Studentas turi turėti bent vieną pažymį. Bandykite dar kartą.\n";
@@ -74,7 +74,7 @@ void ranka (Stud &laikinas, vector<Stud> &studentai){
             }
             laikinas.pazymiai.push_back(pazymys);
         }
-        tekstas="Iveskite studento egzamino pazymi: ";
+        tekstas="Įveskite studento egzamino pažymį: ";
         laikinas.egzaminas=skaiciu_ivesties_tikrinimas(tekstas);
         studentai.push_back(laikinas);
         laikinas.pazymiai.clear();
@@ -89,12 +89,12 @@ void pazymiu_generavimas (Stud &laikinas, vector<Stud> &studentai){
 
     cout<<"Veskite duomenis apie studentus. Kai norėsite baigti, įveskite 'n' kaip studento vardą.\n";
     while (laikinas.vardas!="n"){
-        cout << "Iveskite studento varda: ";
+        cout << "Įveskite studento vardą: ";
         cin >> laikinas.vardas;
         if (laikinas.vardas=="n"){
             break;
         }
-        cout << "Iveskite studento pavarde: ";
+        cout << "Įveskite studento pavardę: ";
         cin >> laikinas.pavarde;
         int n=rand()%10+1;
         for (int j=0; j<n; j++){

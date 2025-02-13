@@ -13,5 +13,6 @@ using std::vector;
 struct Stud {
     string vardas, pavarde;
     int *pazymiai=nullptr;
+    int dydis=0;
     int egzaminas;
 };

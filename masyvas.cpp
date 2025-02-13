@@ -1,21 +1,21 @@
 #include "headers_masyvas.h"
 
-double vidurkis(int pazymiai[], int egzaminas){
+double vidurkis(int pazymiai[], int egzaminas, int dydis){
     double vid = 0;
-    for (int i=0; i<sizeof(pazymiai)/sizeof(int); i++){
+    for (int i=0; i<dydis; i++){
         vid += pazymiai[i];
     }
-    vid = vid/sizeof(pazymiai)/sizeof(int)*0.4 + egzaminas*0.6;
+    vid = vid/dydis*0.4 + egzaminas*0.6;
     return vid;
 }
 
-double mediana(int pazymiai[], int egzaminas){
+double mediana(int pazymiai[], int egzaminas, int dydis){
     double med = 0;
-    std::sort(pazymiai, pazymiai+sizeof(pazymiai)/sizeof(int));
-    if (sizeof(pazymiai)/sizeof(int) % 2 == 0) {
-        med = double((pazymiai[(sizeof(pazymiai)/sizeof(int))/2 - 1] + pazymiai[(sizeof(pazymiai)/sizeof(int))/2])) / 2.0;
+    std::sort(pazymiai, pazymiai+dydis);
+    if (dydis % 2 == 0) {
+        med = (pazymiai[dydis/2 - 1] + pazymiai[dydis/2]) / 2.0;
     } else {
-        med = pazymiai[(sizeof(pazymiai)/sizeof(int))/2];
+        med = pazymiai[dydis/2];
     }
     
     med = med*0.4 + egzaminas*0.6;
@@ -25,7 +25,7 @@ double mediana(int pazymiai[], int egzaminas){
 void isvestis (vector<Stud> studentai){
     cout << std::left<<std::setw(25) <<"Vardas"<<std::setw(25)<<"Pavarde"<<std::setw(25)<<"Galutinis (Vid.)"<<std::setw(25)<<"/ Galutinis (Med.)\n"<<"-----------------------------------------------------------------\n";
     for (auto x:studentai){
-        cout << std::left<<std::setw(25)<< x.vardas << std::setw(25)<< x.pavarde << std::setw(25)<< std::fixed << std::setprecision(2) <<vidurkis(x.pazymiai, x.egzaminas) << std::setw(25)<<mediana(x.pazymiai, x.egzaminas)<< endl;
+        cout << std::left<<std::setw(25)<< x.vardas << std::setw(25)<< x.pavarde << std::setw(25)<< std::fixed << std::setprecision(2) <<vidurkis(x.pazymiai, x.egzaminas, x.dydis) << std::setw(25)<<mediana(x.pazymiai, x.egzaminas, x.dydis)<< endl;
     }
 }
 
@@ -37,10 +37,10 @@ int skaiciu_ivesties_tikrinimas(string &tekstas) {
         if (cin.fail()) {
             cout << "Įveskite tinkamą skaičių!\n";
             cin.clear();
-            cin.ignore(1000, '\n');
+            cin.ignore();
         }
         else {
-            cin.ignore(1000, '\n');
+            cin.ignore();
             return reiksme;
         }
     }
@@ -51,19 +51,18 @@ void ranka (vector<Stud> &studentai){
     cout<<"Veskite duomenis apie studentus. Kai norėsite baigti, įveskite 'n' kaip studento vardą.\n";
     while (true){
         Stud laikinas;
-        cout << "Iveskite studento varda: ";
+        cout << "Įveskite studento vardą: ";
         cin >> laikinas.vardas;
         if (laikinas.vardas=="n"){
             break;
         }
-        cout << "Iveskite studento pavarde: ";
+        cout << "Įveskite studento pavardę: ";
         cin >> laikinas.pavarde;
         cout<<"Veskite jo pažymius. Kai norėsite baigti, įveskite '0'.\n";
-        int counter=1;
         while (true){
             tekstas="Iveskite pazymi: ";
             int pazymys=skaiciu_ivesties_tikrinimas(tekstas);
-            if (pazymys==0 && counter==1){
+            if (pazymys==0 && laikinas.dydis==0){
                 cout<<"Studentas turi turėti bent vieną pažymį. Bandykite dar kartą.\n";
                 continue;
             }
@@ -74,16 +73,16 @@ void ranka (vector<Stud> &studentai){
                 cout<<"Neteisingas pažymys. Bandykite dar kartą.\n";
                 continue;
             }
-            int *temp = new int[counter];
-            for (int i=0; i<counter-1; i++){
+            int *temp = new int[laikinas.dydis+1];
+            for (int i=0; i<laikinas.dydis; i++){
                 temp[i]=laikinas.pazymiai[i];
             }
-            temp[counter-1]=pazymys;
+            temp[laikinas.dydis]=pazymys;
             delete [] laikinas.pazymiai;
             laikinas.pazymiai=temp;
-            counter++;
+            laikinas.dydis++;
         }
-        tekstas="Iveskite studento egzamino pazymi: ";
+        tekstas="Įveskite studento egzamino pažymį: ";
         laikinas.egzaminas=skaiciu_ivesties_tikrinimas(tekstas);
         studentai.push_back(laikinas);
     }
@@ -97,16 +96,16 @@ void pazymiu_generavimas (vector<Stud> &studentai){
     cout<<"Veskite duomenis apie studentus. Kai norėsite baigti, įveskite 'n' kaip studento vardą.\n";
     while (true){
         Stud laikinas;
-        cout << "Iveskite studento varda: ";
+        cout << "Įveskite studento vardą: ";
         cin >> laikinas.vardas;
         if (laikinas.vardas=="n"){
             break;
         }
-        cout << "Iveskite studento pavarde: ";
+        cout << "Įveskite studento pavardę: ";
         cin >> laikinas.pavarde;
-        int n=rand()%10+1;
-        laikinas.pazymiai = new int[n];
-        for (int j=0; j<n; j++){
+        laikinas.dydis=rand()%10+1;
+        laikinas.pazymiai = new int[laikinas.dydis];
+        for (int j=0; j<laikinas.dydis; j++){
             int pazymys=rand()%10+1;
             laikinas.pazymiai[j]=pazymys;
         }
@@ -164,9 +163,9 @@ void visko_generavimas (vector<Stud> &studentai){
             laikinas.vardas=moteriskiVardai[v];
             laikinas.pavarde=moteriskosPavardes[p];
         }
-        int n=rand()%10+1;
-        laikinas.pazymiai = new int[n];
-        for (int j=0; j<n; j++){
+        laikinas.dydis=rand()%10+1;
+        laikinas.pazymiai = new int[laikinas.dydis];
+        for (int j=0; j<laikinas.dydis; j++){
             int pazymys=rand()%10+1;
             laikinas.pazymiai[j]=pazymys;
         }
