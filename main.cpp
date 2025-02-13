@@ -23,9 +23,9 @@ double mediana(vector<int> pazymiai, int egzaminas){
 }
 
 void isvestis (vector<Stud> studentai){
-    cout << std::left<<std::setw(20) <<"Vardas"<<std::setw(20)<<"Pavarde"<<std::setw(20)<<"Galutinis (Vid.)"<<std::setw(20)<<"/ Galutinis (Med.)\n"<<"-----------------------------------------------------------------\n";
+    cout << std::left<<std::setw(25) <<"Vardas"<<std::setw(25)<<"Pavarde"<<std::setw(25)<<"Galutinis (Vid.)"<<std::setw(25)<<"/ Galutinis (Med.)\n"<<"-----------------------------------------------------------------\n";
     for (auto x:studentai){
-        cout << std::left<<std::setw(20)<< x.vardas << std::setw(20)<< x.pavarde << std::setw(20)<< std::fixed << std::setprecision(2) <<vidurkis(x.pazymiai, x.egzaminas) << std::setw(20)<<mediana(x.pazymiai, x.egzaminas)<< endl;
+        cout << std::left<<std::setw(25)<< x.vardas << std::setw(25)<< x.pavarde << std::setw(25)<< std::fixed << std::setprecision(2) <<vidurkis(x.pazymiai, x.egzaminas) << std::setw(25)<<mediana(x.pazymiai, x.egzaminas)<< endl;
     }
 }
 
@@ -38,7 +38,8 @@ int skaiciu_ivesties_tikrinimas(string &tekstas) {
             cout << "Įveskite tinkamą skaičių!\n";
             cin.clear();
             cin.ignore(1000, '\n');
-        } else {
+        }
+        else {
             cin.ignore(1000, '\n');
             return reiksme;
         }
@@ -100,15 +101,49 @@ void pazymiu_generavimas (Stud &laikinas, vector<Stud> &studentai){
 void visko_generavimas (Stud &laikinas, vector<Stud> &studentai){
     srand(time(NULL));
 
-    cout<<"Veskite duomenis apie studentus. Kai norėsite baigti, įveskite 'n' kaip studento vardą.\n";
-    while (laikinas.vardas!="n"){
-        cout << "Iveskite studento varda: ";
-        cin >> laikinas.vardas;
-        if (laikinas.vardas=="n"){
-            break;
+    string vyriskiVardai[50] = {
+        "Jonas", "Petras", "Marius", "Tadas", "Rokas", "Darius", "Arnas", "Justas", "Edvinas", "Tomas",
+        "Paulius", "Simas", "Lukas", "Andrius", "Rytis", "Ernestas", "Giedrius", "Mantas", "Deividas", "Vilius",
+        "Mindaugas", "Martynas", "Saulius", "Vytautas", "Tautvydas", "Sigitas", "Algirdas", "Gintaras", "Julius", "Remigijus",
+        "Kestas", "Vaidotas", "Audrius", "Augustas", "Nerijus", "Gediminas", "Raimundas", "Juozas", "Dainius", "Arvydas",
+        "Evaldas", "Zygimantas", "Vytenis", "Laurynas", "Arminas", "Rolandas", "Alvydas", "Laimonas", "Dominykas", "Tautvilas"
+    };
+    
+    string moteriskiVardai[50] = {
+        "Ona", "Ieva", "Lina", "Egle", "Asta", "Rima", "Greta", "Aiste", "Monika", "Laura",
+        "Jurgita", "Dovile", "Karolina", "Viktorija", "Gabija", "Sandra", "Vaida", "Aurelija", "Kristina", "Evelina",
+        "Ruta", "Egle", "Aiste", "Indre", "Diana", "Viktorija", "Marija", "Aldona", "Gintare", "Alina",
+        "Birute", "Rita", "Raimonda", "Virginija", "Irena", "Jolanta", "Solveiga", "Vilma", "Lijana", "Agnė",
+        "Saulė", "Nida", "Grazina", "Danutė", "Liuda", "Daiva", "Jadvyga", "Sigita", "Jonė", "Vaida"
+    };
+    
+    string vyriskosPavardes[50] = {
+        "Kazlauskas", "Petrauskas", "Jankauskas", "Paulauskas", "Butkus", "Navickas", "Sabonis", "Rimkus", "Grigas", "Urbonas",
+        "Brazinskas", "Šimkus", "Pocius", "Žukauskas", "Daukantas", "Blaževičius", "Stankūnas", "Grybauskas", "Vaičiulis", "Vaitkus",
+        "Rutkauskas", "Tamulis", "Kudirka", "Bagdonas", "Pavardenis", "Morkūnas", "Noreika", "Dapkus", "Žilinskas", "Venckus",
+        "Kairys", "Janušaitis", "Andriuškevičius", "Šimaitis", "Mockus", "Vaitkevičius", "Matulionis", "Aleknavičius", "Valančius", "Račkauskas",
+        "Giedraitis", "Petkevičius", "Radzevičius", "Žiogas", "Kalvaitis", "Baranauskas", "Masiulis", "Gervė", "Balčiūnas", "Mačiulis"
+    };
+    
+    string moteriskosPavardes[50] = {
+        "Kazlauskaitė", "Petrauskaitė", "Jankauskaitė", "Paulauskaitė", "Butkutė", "Navickaitė", "Sabonytė", "Rimkutė", "Grigaitė", "Urbonaitė",
+        "Brazinskaitė", "Šimkutė", "Pociūtė", "Žukauskaitė", "Daukantaitė", "Blaževičiūtė", "Stankūnaitė", "Grybauskaitė", "Vaičiulienė", "Vaitkienė",
+        "Rutkauskaitė", "Tamulytė", "Kudirkaitė", "Bagdonaitė", "Morkūnaitė", "Noreikaitė", "Dapkutė", "Žilinskaitė", "Venckutė", "Kairytė",
+        "Janušaitė", "Andriuškevičiūtė", "Šimaitė", "Mockutė", "Vaitkevičiūtė", "Matulionytė", "Aleknavičiūtė", "Valančiūtė", "Račkauskaitė", "Giedraitė",
+        "Petkevičiūtė", "Radzevičiūtė", "Žiogaitė", "Kalvaitė", "Baranauskaitė", "Masiulytė", "Balčiūnaitė", "Mačiulytė", "Gervaitė", "Daukšytė"
+    };
+
+    int k=rand()%10+1;
+    for (int i=0; i<k; i++){
+        int lytis=rand()%2, v=rand()%50, p=rand()%50;
+        if (lytis==0){
+            laikinas.vardas=vyriskiVardai[v];
+            laikinas.pavarde=vyriskosPavardes[p];
         }
-        cout << "Iveskite studento pavarde: ";
-        cin >> laikinas.pavarde;
+        else {
+            laikinas.vardas=moteriskiVardai[v];
+            laikinas.pavarde=moteriskosPavardes[p];
+        }
         int n=rand()%10+1;
         for (int j=0; j<n; j++){
             int pazymys=rand()%10+1;
@@ -144,7 +179,7 @@ int main(){
         }
 
         else if (rezimas==3){
-            continue;
+            visko_generavimas(laikinas, studentai);
         }
 
         else {
