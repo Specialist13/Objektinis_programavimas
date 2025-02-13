@@ -29,7 +29,24 @@ void isvestis (vector<Stud> studentai){
     }
 }
 
+int skaiciu_ivesties_tikrinimas(string &tekstas) {
+    int reiksme;
+    while (true) {
+        cout << tekstas;
+        cin >> reiksme;
+        if (cin.fail()) {
+            cout << "Įveskite tinkamą skaičių!\n";
+            cin.clear();
+            cin.ignore(1000, '\n');
+        } else {
+            cin.ignore(1000, '\n');
+            return reiksme;
+        }
+    }
+}
+
 void ranka (Stud &laikinas, vector<Stud> &studentai){
+    string tekstas;
     cout<<"Veskite duomenis apie studentus. Kai norėsite baigti, įveskite 'n' kaip studento vardą.\n";
     while (laikinas.vardas!="n"){
         cout << "Iveskite studento varda: ";
@@ -39,17 +56,65 @@ void ranka (Stud &laikinas, vector<Stud> &studentai){
         }
         cout << "Iveskite studento pavarde: ";
         cin >> laikinas.pavarde;
-        cout << "Iveskite, kiek studentas gavo pazymiu: ";
-        int n;
-        cin>>n;
+        tekstas="Iveskite, kiek studentas gavo pazymiu: ";
+        int n=skaiciu_ivesties_tikrinimas(tekstas);
         for (int j=0; j<n; j++){
-            cout << "Iveskite pazymi: ";
-            int pazymys;
-            cin>>pazymys;
+            tekstas="Iveskite pazymi: ";
+            int pazymys=skaiciu_ivesties_tikrinimas(tekstas);
             laikinas.pazymiai.push_back(pazymys);
         }
-        cout << "Iveskite studento egzamino pazymi: ";
-        cin >> laikinas.egzaminas;
+        tekstas="Iveskite studento egzamino pazymi: ";
+        laikinas.egzaminas=skaiciu_ivesties_tikrinimas(tekstas);
+        studentai.push_back(laikinas);
+        laikinas.pazymiai.clear();
+    }
+    isvestis(studentai);
+    studentai.clear();
+}
+
+void pazymiu_generavimas (Stud &laikinas, vector<Stud> &studentai){
+    srand(time(NULL));
+
+    cout<<"Veskite duomenis apie studentus. Kai norėsite baigti, įveskite 'n' kaip studento vardą.\n";
+    while (laikinas.vardas!="n"){
+        cout << "Iveskite studento varda: ";
+        cin >> laikinas.vardas;
+        if (laikinas.vardas=="n"){
+            break;
+        }
+        cout << "Iveskite studento pavarde: ";
+        cin >> laikinas.pavarde;
+        int n=rand()%10+1;
+        for (int j=0; j<n; j++){
+            int pazymys=rand()%10+1;
+            laikinas.pazymiai.push_back(pazymys);
+        }
+        laikinas.egzaminas=rand()%10+1;;
+        studentai.push_back(laikinas);
+        laikinas.pazymiai.clear();
+    }
+    isvestis(studentai);
+    studentai.clear();
+}
+
+void visko_generavimas (Stud &laikinas, vector<Stud> &studentai){
+    srand(time(NULL));
+
+    cout<<"Veskite duomenis apie studentus. Kai norėsite baigti, įveskite 'n' kaip studento vardą.\n";
+    while (laikinas.vardas!="n"){
+        cout << "Iveskite studento varda: ";
+        cin >> laikinas.vardas;
+        if (laikinas.vardas=="n"){
+            break;
+        }
+        cout << "Iveskite studento pavarde: ";
+        cin >> laikinas.pavarde;
+        int n=rand()%10+1;
+        for (int j=0; j<n; j++){
+            int pazymys=rand()%10+1;
+            laikinas.pazymiai.push_back(pazymys);
+        }
+        laikinas.egzaminas=rand()%10+1;;
         studentai.push_back(laikinas);
         laikinas.pazymiai.clear();
     }
@@ -63,8 +128,8 @@ int main(){
     int rezimas=0;
     cout<<"Sveiki!\n";
     while (rezimas!=4){
-        cout<<"Pasirinkite programos režimą.\n1 - Duomenų įvedimas ranka\n2 - Pažymių generavimas\n3 - Pažymių ir vardų generavimas\n4 - Baigti darbą\nIveskite pasirinkimą: ";
-        cin>>rezimas;
+        string tekstas="Pasirinkite programos režimą.\n1 - Duomenų įvedimas ranka\n2 - Pažymių generavimas\n3 - Pažymių ir vardų generavimas\n4 - Baigti darbą\nIveskite pasirinkimą: ";
+        rezimas=skaiciu_ivesties_tikrinimas(tekstas);
         if (rezimas==4){
             cout<<"Viso gero!\n";
             break;
@@ -75,7 +140,7 @@ int main(){
         }
 
         else if (rezimas==2){
-            continue;
+            pazymiu_generavimas(laikinas, studentai);
         }
 
         else if (rezimas==3){
