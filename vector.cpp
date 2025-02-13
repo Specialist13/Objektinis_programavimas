@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "headers_vector.h"
 
 double vidurkis(vector<int> pazymiai, int egzaminas){
     double vid = 0;
@@ -57,11 +57,17 @@ void ranka (Stud &laikinas, vector<Stud> &studentai){
         }
         cout << "Iveskite studento pavarde: ";
         cin >> laikinas.pavarde;
-        tekstas="Iveskite, kiek studentas gavo pazymiu: ";
-        int n=skaiciu_ivesties_tikrinimas(tekstas);
-        for (int j=0; j<n; j++){
+        cout<<"Veskite jo pažymius. Kai norėsite baigti, įveskite '0'.\n";
+        while (true){
             tekstas="Iveskite pazymi: ";
             int pazymys=skaiciu_ivesties_tikrinimas(tekstas);
+            if (pazymys==0){
+                break;
+            }
+            else if (pazymys<0 || pazymys>10){
+                cout<<"Neteisingas pažymys. Bandykite dar kartą.\n";
+                continue;
+            }
             laikinas.pazymiai.push_back(pazymys);
         }
         tekstas="Iveskite studento egzamino pazymi: ";
