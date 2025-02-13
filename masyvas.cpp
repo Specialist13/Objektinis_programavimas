@@ -46,10 +46,11 @@ int skaiciu_ivesties_tikrinimas(string &tekstas) {
     }
 }
 
-void ranka (Stud &laikinas, vector<Stud> &studentai){
+void ranka (vector<Stud> &studentai){
     string tekstas;
     cout<<"Veskite duomenis apie studentus. Kai norėsite baigti, įveskite 'n' kaip studento vardą.\n";
-    while (laikinas.vardas!="n"){
+    while (true){
+        Stud laikinas;
         cout << "Iveskite studento varda: ";
         cin >> laikinas.vardas;
         if (laikinas.vardas=="n"){
@@ -62,7 +63,11 @@ void ranka (Stud &laikinas, vector<Stud> &studentai){
         while (true){
             tekstas="Iveskite pazymi: ";
             int pazymys=skaiciu_ivesties_tikrinimas(tekstas);
-            if (pazymys==0){
+            if (pazymys==0 && counter==1){
+                cout<<"Studentas turi turėti bent vieną pažymį. Bandykite dar kartą.\n";
+                continue;
+            }
+            else if (pazymys==0){
                 break;
             }
             else if (pazymys<0 || pazymys>10){
@@ -74,26 +79,24 @@ void ranka (Stud &laikinas, vector<Stud> &studentai){
                 temp[i]=laikinas.pazymiai[i];
             }
             temp[counter-1]=pazymys;
+            delete [] laikinas.pazymiai;
             laikinas.pazymiai=temp;
-            delete [] temp;
             counter++;
         }
         tekstas="Iveskite studento egzamino pazymi: ";
         laikinas.egzaminas=skaiciu_ivesties_tikrinimas(tekstas);
-        Stud laikino_kopija=laikinas;
-        studentai.push_back(laikino_kopija);
-        delete [] laikinas.pazymiai;
-        laikinas.pazymiai=nullptr;
+        studentai.push_back(laikinas);
     }
     isvestis(studentai);
     studentai.clear();
 }
 
-void pazymiu_generavimas (Stud &laikinas, vector<Stud> &studentai){
+void pazymiu_generavimas (vector<Stud> &studentai){
     srand(time(NULL));
 
     cout<<"Veskite duomenis apie studentus. Kai norėsite baigti, įveskite 'n' kaip studento vardą.\n";
-    while (laikinas.vardas!="n"){
+    while (true){
+        Stud laikinas;
         cout << "Iveskite studento varda: ";
         cin >> laikinas.vardas;
         if (laikinas.vardas=="n"){
@@ -109,17 +112,15 @@ void pazymiu_generavimas (Stud &laikinas, vector<Stud> &studentai){
         }
         laikinas.egzaminas=rand()%10+1;;
         studentai.push_back(laikinas);
-        delete [] laikinas.pazymiai;
-        laikinas.pazymiai=nullptr;
     }
     isvestis(studentai);
     studentai.clear();
 }
 
-void visko_generavimas (Stud &laikinas, vector<Stud> &studentai){
+void visko_generavimas (vector<Stud> &studentai){
     srand(time(NULL));
 
-    string vyriskiVardai[50] = {
+    vector<string> vyriskiVardai = {
         "Jonas", "Petras", "Marius", "Tadas", "Rokas", "Darius", "Arnas", "Justas", "Edvinas", "Tomas",
         "Paulius", "Simas", "Lukas", "Andrius", "Rytis", "Ernestas", "Giedrius", "Mantas", "Deividas", "Vilius",
         "Mindaugas", "Martynas", "Saulius", "Vytautas", "Tautvydas", "Sigitas", "Algirdas", "Gintaras", "Julius", "Remigijus",
@@ -127,7 +128,7 @@ void visko_generavimas (Stud &laikinas, vector<Stud> &studentai){
         "Evaldas", "Zygimantas", "Vytenis", "Laurynas", "Arminas", "Rolandas", "Alvydas", "Laimonas", "Dominykas", "Tautvilas"
     };
     
-    string moteriskiVardai[50] = {
+    vector<string> moteriskiVardai = {
         "Ona", "Ieva", "Lina", "Egle", "Asta", "Rima", "Greta", "Aiste", "Monika", "Laura",
         "Jurgita", "Dovile", "Karolina", "Viktorija", "Gabija", "Sandra", "Vaida", "Aurelija", "Kristina", "Evelina",
         "Ruta", "Egle", "Aiste", "Indre", "Diana", "Viktorija", "Marija", "Aldona", "Gintare", "Alina",
@@ -135,7 +136,7 @@ void visko_generavimas (Stud &laikinas, vector<Stud> &studentai){
         "Saulė", "Nida", "Grazina", "Danutė", "Liuda", "Daiva", "Jadvyga", "Sigita", "Jonė", "Vaida"
     };
     
-    string vyriskosPavardes[50] = {
+    vector<string> vyriskosPavardes = {
         "Kazlauskas", "Petrauskas", "Jankauskas", "Paulauskas", "Butkus", "Navickas", "Sabonis", "Rimkus", "Grigas", "Urbonas",
         "Brazinskas", "Šimkus", "Pocius", "Žukauskas", "Daukantas", "Blaževičius", "Stankūnas", "Grybauskas", "Vaičiulis", "Vaitkus",
         "Rutkauskas", "Tamulis", "Kudirka", "Bagdonas", "Pavardenis", "Morkūnas", "Noreika", "Dapkus", "Žilinskas", "Venckus",
@@ -143,7 +144,7 @@ void visko_generavimas (Stud &laikinas, vector<Stud> &studentai){
         "Giedraitis", "Petkevičius", "Radzevičius", "Žiogas", "Kalvaitis", "Baranauskas", "Masiulis", "Gervė", "Balčiūnas", "Mačiulis"
     };
     
-    string moteriskosPavardes[50] = {
+    vector<string> moteriskosPavardes = {
         "Kazlauskaitė", "Petrauskaitė", "Jankauskaitė", "Paulauskaitė", "Butkutė", "Navickaitė", "Sabonytė", "Rimkutė", "Grigaitė", "Urbonaitė",
         "Brazinskaitė", "Šimkutė", "Pociūtė", "Žukauskaitė", "Daukantaitė", "Blaževičiūtė", "Stankūnaitė", "Grybauskaitė", "Vaičiulienė", "Vaitkienė",
         "Rutkauskaitė", "Tamulytė", "Kudirkaitė", "Bagdonaitė", "Morkūnaitė", "Noreikaitė", "Dapkutė", "Žilinskaitė", "Venckutė", "Kairytė",
@@ -153,6 +154,7 @@ void visko_generavimas (Stud &laikinas, vector<Stud> &studentai){
 
     int k=rand()%10+1;
     for (int i=0; i<k; i++){
+        Stud laikinas;
         int lytis=rand()%2, v=rand()%50, p=rand()%50;
         if (lytis==0){
             laikinas.vardas=vyriskiVardai[v];
@@ -170,15 +172,12 @@ void visko_generavimas (Stud &laikinas, vector<Stud> &studentai){
         }
         laikinas.egzaminas=rand()%10+1;;
         studentai.push_back(laikinas);
-        delete [] laikinas.pazymiai;
-        laikinas.pazymiai=nullptr;
     }
     isvestis(studentai);
     studentai.clear();
 }
 
 int main(){
-    Stud laikinas;
     vector<Stud> studentai;
     int rezimas=0;
     cout<<"Sveiki!\n";
@@ -191,15 +190,15 @@ int main(){
         }
 
         else if (rezimas==1){
-            ranka(laikinas, studentai);
+            ranka(studentai);
         }
 
         else if (rezimas==2){
-            pazymiu_generavimas(laikinas, studentai);
+            pazymiu_generavimas(studentai);
         }
 
         else if (rezimas==3){
-            visko_generavimas(laikinas, studentai);
+            visko_generavimas(studentai);
         }
 
         else {

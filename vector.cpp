@@ -61,7 +61,11 @@ void ranka (Stud &laikinas, vector<Stud> &studentai){
         while (true){
             tekstas="Iveskite pazymi: ";
             int pazymys=skaiciu_ivesties_tikrinimas(tekstas);
-            if (pazymys==0){
+            if (pazymys==0 && laikinas.pazymiai.size()==0){
+                cout<<"Studentas turi turėti bent vieną pažymį. Bandykite dar kartą.\n";
+                continue;
+            }
+            else if (pazymys==0){
                 break;
             }
             else if (pazymys<0 || pazymys>10){
@@ -77,6 +81,7 @@ void ranka (Stud &laikinas, vector<Stud> &studentai){
     }
     isvestis(studentai);
     studentai.clear();
+    laikinas.vardas.clear();
 }
 
 void pazymiu_generavimas (Stud &laikinas, vector<Stud> &studentai){
@@ -102,12 +107,13 @@ void pazymiu_generavimas (Stud &laikinas, vector<Stud> &studentai){
     }
     isvestis(studentai);
     studentai.clear();
+    laikinas.vardas.clear();
 }
 
 void visko_generavimas (Stud &laikinas, vector<Stud> &studentai){
     srand(time(NULL));
 
-    string vyriskiVardai[50] = {
+    vector<string> vyriskiVardai = {
         "Jonas", "Petras", "Marius", "Tadas", "Rokas", "Darius", "Arnas", "Justas", "Edvinas", "Tomas",
         "Paulius", "Simas", "Lukas", "Andrius", "Rytis", "Ernestas", "Giedrius", "Mantas", "Deividas", "Vilius",
         "Mindaugas", "Martynas", "Saulius", "Vytautas", "Tautvydas", "Sigitas", "Algirdas", "Gintaras", "Julius", "Remigijus",
@@ -115,7 +121,7 @@ void visko_generavimas (Stud &laikinas, vector<Stud> &studentai){
         "Evaldas", "Zygimantas", "Vytenis", "Laurynas", "Arminas", "Rolandas", "Alvydas", "Laimonas", "Dominykas", "Tautvilas"
     };
     
-    string moteriskiVardai[50] = {
+    vector<string> moteriskiVardai = {
         "Ona", "Ieva", "Lina", "Egle", "Asta", "Rima", "Greta", "Aiste", "Monika", "Laura",
         "Jurgita", "Dovile", "Karolina", "Viktorija", "Gabija", "Sandra", "Vaida", "Aurelija", "Kristina", "Evelina",
         "Ruta", "Egle", "Aiste", "Indre", "Diana", "Viktorija", "Marija", "Aldona", "Gintare", "Alina",
@@ -123,7 +129,7 @@ void visko_generavimas (Stud &laikinas, vector<Stud> &studentai){
         "Saulė", "Nida", "Grazina", "Danutė", "Liuda", "Daiva", "Jadvyga", "Sigita", "Jonė", "Vaida"
     };
     
-    string vyriskosPavardes[50] = {
+    vector<string> vyriskosPavardes = {
         "Kazlauskas", "Petrauskas", "Jankauskas", "Paulauskas", "Butkus", "Navickas", "Sabonis", "Rimkus", "Grigas", "Urbonas",
         "Brazinskas", "Šimkus", "Pocius", "Žukauskas", "Daukantas", "Blaževičius", "Stankūnas", "Grybauskas", "Vaičiulis", "Vaitkus",
         "Rutkauskas", "Tamulis", "Kudirka", "Bagdonas", "Pavardenis", "Morkūnas", "Noreika", "Dapkus", "Žilinskas", "Venckus",
@@ -131,7 +137,7 @@ void visko_generavimas (Stud &laikinas, vector<Stud> &studentai){
         "Giedraitis", "Petkevičius", "Radzevičius", "Žiogas", "Kalvaitis", "Baranauskas", "Masiulis", "Gervė", "Balčiūnas", "Mačiulis"
     };
     
-    string moteriskosPavardes[50] = {
+    vector<string> moteriskosPavardes = {
         "Kazlauskaitė", "Petrauskaitė", "Jankauskaitė", "Paulauskaitė", "Butkutė", "Navickaitė", "Sabonytė", "Rimkutė", "Grigaitė", "Urbonaitė",
         "Brazinskaitė", "Šimkutė", "Pociūtė", "Žukauskaitė", "Daukantaitė", "Blaževičiūtė", "Stankūnaitė", "Grybauskaitė", "Vaičiulienė", "Vaitkienė",
         "Rutkauskaitė", "Tamulytė", "Kudirkaitė", "Bagdonaitė", "Morkūnaitė", "Noreikaitė", "Dapkutė", "Žilinskaitė", "Venckutė", "Kairytė",
@@ -161,6 +167,7 @@ void visko_generavimas (Stud &laikinas, vector<Stud> &studentai){
     }
     isvestis(studentai);
     studentai.clear();
+    laikinas.vardas.clear();
 }
 
 int main(){
